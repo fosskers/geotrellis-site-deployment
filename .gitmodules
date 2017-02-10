@@ -1,0 +1,9 @@
+[submodule "geotrellis-site"]
+	path = geotrellis-site
+	url = git@github.com:geotrellis/geotrellis-site.git
+[submodule "geotrellis-transit"]
+	path = geotrellis-transit
+	url = git@github.com:geotrellis/geotrellis-transit.git
+[submodule "geotrellis-chatta-demo"]
+	path = geotrellis-chatta-demo
+	url = git@github.com:geotrellis/geotrellis-chatta-demo.git
