@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+
+  gtsite-service:
+    image: fosskers/gtsite-service
+    ports:
+      - "9090:9090"
+
+  gtsite-nginx:
+    image: fosskers/gtsite-nginx
+    depends_on:
+      - gtsite-service
+    ports:
+      - "8080:8080"
+
+  gt-transit:
+    image: fosskers/gt-transit
+    ports:
+      - "9999:9999"
+
+  gt-chatta-demo:
+    image: fosskers/gt-chatta-demo
+    hostname: chatta
+    ports:
+      - "8777:8777"

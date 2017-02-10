@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+
+  gtsite-service:
+    image: fosskers/gtsite-service
+    build:
+      context: ./geotrellis-site/service
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - "${HOME}/.ivy2:/root/.ivy2"
+      - "${HOME}/.m2:/root/.m2"
+      - "${HOME}/.sbt:/root/.sbt"
+
+  gtsite-nginx:
+    image: fosskers/gtsite-nginx
+    build:
+      context: ./geotrellis-site/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - gtsite-service
+      - gt-transit
+      - gt-chatta-demo
+    ports:
+      - "8080:8080"
+
+  gt-transit:
+    image: fosskers/gt-transit
+    build:
+      context: ./geotrellis-transit
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+
+  gt-chatta-demo:
+    image: fosskers/gt-chatta-demo
+    hostname: chatta
+    build:
+      context: ./geotrellis-chatta-demo
+      dockerfile: Dockerfile
+    ports:
+      - "8777:8777"
