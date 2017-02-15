@@ -1,0 +1,8 @@
+---
+- name: Install Docker Compose
+  pip: name=docker-compose version={{ docker_compose_version }}
+
+- name: Add Vagrant user to Docker group
+  user: name=vagrant
+        groups=docker
+        append=yes

@@ -3,24 +3,27 @@
 
 Vagrant.configure("2") do |config|
 
-    # Ubuntu 16.04 LTS
-    config.vm.box = "fosskers/docker-1.12"
-
-    # Docker permissions are available for `ubuntu` user only.
-    config.ssh.username = "ubuntu"
+    # Ubuntu 14.04 LTS
+    config.vm.box = "ubuntu/trusty64"
 
     # Ports to the services
-    config.vm.network :forwarded_port, guest: 8080, host: 8080
-    config.vm.network :forwarded_port, guest: 9999, host: 9999
-    config.vm.network :forwarded_port, guest: 8777, host: 8777
+    config.vm.network :forwarded_port, guest: 8080, host: 8080  # nginx
+    config.vm.network :forwarded_port, guest: 9999, host: 9999  # Transit Demo
+    config.vm.network :forwarded_port, guest: 8777, host: 8777  # Chatta Demo
 
     # VM resource settings
     config.vm.provider :virtualbox do |vb|
-        vb.memory = 12288
-        vb.cpus = 4
+        vb.memory = 8192
+        vb.cpus = 2
     end
 
     # Provisioning
-    config.vm.provision :shell, path: "bootstrap.sh"
+    # Ansible is installed automatically by Vagrant.
+    config.vm.provision "ansible_local" do |ansible|
+        ansible.sudo = true
+        ansible.playbook = "playbook.yml"
+        ansible.galaxy_role_file = "roles/roles.yml"
+        ansible.galaxy_roles_path = "/home/vagrant/ansible_galaxy"
+    end
 
 end
