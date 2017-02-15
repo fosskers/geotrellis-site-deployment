@@ -1,6 +1,5 @@
 provider "aws" {
-  profile = "${var.profile}" # Assumes you have valid AWS credentials.
-  region  = "${var.region}"
+  region = "${var.region}"
 }
 
 # --- ECS RESOURCES --- #
