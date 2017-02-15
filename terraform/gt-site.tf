@@ -26,8 +26,8 @@ resource "aws_ecs_service" "gt-site-cluster-service" {
   task_definition                    = "${aws_ecs_task_definition.gt-site-cluster-task.family}:${aws_ecs_task_definition.gt-site-cluster-task.revision}"
   desired_count                      = "${var.desired_instance_count}"
   iam_role                           = "${var.ecs_service_role}"
-  deployment_minimum_healthy_percent = "0"
-  deployment_maximum_percent         = "100"
+  deployment_minimum_healthy_percent = "${var.minimum_healthy_percent}"
+  deployment_maximum_percent         = "${var.maximum_healthy_percent}"
 
   load_balancer {
     elb_name       = "${aws_elb.gt-site-elb.name}"

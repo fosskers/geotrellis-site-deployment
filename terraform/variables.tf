@@ -38,3 +38,11 @@ variable "desired_instance_count" {
 variable "ec2_instance_type" {
   default = "t2.large"
 }
+
+variable "minimum_healthy_percent" {
+  default = "100"
+}
+
+variable "maximum_healthy_percent" {
+  default = "200"
+}
