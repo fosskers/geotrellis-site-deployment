@@ -5,72 +5,103 @@ provider "aws" {
 
 # --- ECS RESOURCES --- #
 
-resource "aws_ecs_cluster" "gt-site-cluster" {
-  name = "gt-site-cluster"
-
-  lifecycle {
-    create_before_destroy = true
-  }
+resource "aws_ecs_cluster" "gt_site_cluster" {
+  name = "gtsite-${var.environment}"
 }
 
 # `containers.json` is analogous to `docker-compose.yml`.
 # All the container settings are there.
-resource "aws_ecs_task_definition" "gt-site-cluster-task" {
+resource "aws_ecs_task_definition" "gt_site_cluster_task" {
   family                = "gt-site-cluster"
   container_definitions = "${file("containers.json")}"
 }
 
-resource "aws_ecs_service" "gt-site-cluster-service" {
-  name                               = "gt-site-cluster"
-  cluster                            = "${aws_ecs_cluster.gt-site-cluster.id}"
-  task_definition                    = "${aws_ecs_task_definition.gt-site-cluster-task.family}:${aws_ecs_task_definition.gt-site-cluster-task.revision}"
+resource "aws_ecs_service" "gt_site_cluster_service" {
+  name                               = "gtsite-${var.environment}"
+  cluster                            = "${aws_ecs_cluster.gt_site_cluster.id}"
+  task_definition                    = "${aws_ecs_task_definition.gt_site_cluster_task.family}:${aws_ecs_task_definition.gt_site_cluster_task.revision}"
   desired_count                      = "${var.desired_instance_count}"
   iam_role                           = "${var.ecs_service_role}"
   deployment_minimum_healthy_percent = "${var.minimum_healthy_percent}"
   deployment_maximum_percent         = "${var.maximum_healthy_percent}"
 
   load_balancer {
-    elb_name       = "${aws_elb.gt-site-elb.name}"
-    container_name = "gtsite-nginx"
-    container_port = 8080
+    target_group_arn = "${aws_alb_target_group.gt_site_https.id}"
+    container_name   = "gtsite-nginx"
+    container_port   = 8080
   }
 }
 
-# A load balancer is necessary to launch the EC2 manager instance properly.
-resource "aws_elb" "gt-site-elb" {
+# --- LOAD BALANCING --- #
+
+# A Load Balancer, the true entrance point to the site/demo servers.
+resource "aws_alb" "gt_site_alb" {
   subnets = ["${var.subnet_id}"]
-
-  listener {
-    lb_port           = 80
-    lb_protocol       = "HTTP"
-    instance_port     = 8080   # The port that the nginx container is listening on.
-    instance_protocol = "HTTP"
-  }
-
-  cross_zone_load_balancing = false
-  idle_timeout              = 3600
+  name    = "alb-gtsite-${var.environment}"
 
   tags {
-    Name = "gt-site-cluster elb"
+    Name        = "alb-gtsite-${var.environment}"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
   }
 }
 
+resource "aws_alb_target_group" "gt_site_https" {
+  name = "albtg-gtsite-${var.environment}"
+
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "30"
+    protocol            = "HTTP"
+    timeout             = "3"
+    path                = "/healthcheck/"
+    unhealthy_threshold = "2"
+  }
+
+  port     = "443"
+  protocol = "HTTP"
+
+  # vpc_id = "${module.vpc.id}"
+
+  tags {
+    Name        = "albtg-gtsite-${var.environment}"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+}
+
+resource "aws_alb_listener" "gt_site_https" {
+  load_balancer_arn = "${aws_alb.gt_site_alb.id}"
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = "${var.ssl_certificate_arn}"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.gt_site_https.id}"
+    type             = "forward"
+  }
+}
+
+# --- LAUNCH CONFIG --- #
+
 resource "aws_launch_configuration" "ecs" {
-  name                 = "ECS ${aws_ecs_cluster.gt-site-cluster.name}"
+  name                 = "ECS ${aws_ecs_cluster.gt_site_cluster.name}"
   image_id             = "${var.aws_ecs_ami}"
   instance_type        = "${var.ec2_instance_type}"
   iam_instance_profile = "${var.ecs_instance_profile}"
 
   key_name                    = "${var.ec2_key}"
-  associate_public_ip_address = true
-  user_data                   = "#!/bin/bash\necho ECS_CLUSTER='${aws_ecs_cluster.gt-site-cluster.name}' > /etc/ecs/ecs.config"
-}
+  associate_public_ip_address = false
+  user_data                   = "#!/bin/bash\necho ECS_CLUSTER='${aws_ecs_cluster.gt_site_cluster.name}' > /etc/ecs/ecs.config"
 
-resource "aws_autoscaling_group" "ecs" {
+  #  security_groups = ["${aws_security_group.container_instance.id}"]
+
   lifecycle {
     create_before_destroy = true
   }
+}
 
+resource "aws_autoscaling_group" "ecs" {
   # Explicitly linking ASG and launch configuration by name
   # to force replacement on launch configuration changes.
   name = "${aws_launch_configuration.ecs.name}"
@@ -85,7 +116,7 @@ resource "aws_autoscaling_group" "ecs" {
 
   tag {
     key                 = "Name"
-    value               = "ECS ${aws_ecs_cluster.gt-site-cluster.name}"
+    value               = "ECS ${aws_ecs_cluster.gt_site_cluster.name}"
     propagate_at_launch = true
   }
 }

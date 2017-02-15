@@ -6,6 +6,14 @@ variable "region" {
   default = "us-east-1"
 }
 
+variable "project" {
+  default = "gt-site"
+}
+
+variable "environment" {
+  default = "testing"
+}
+
 variable "aws_ecs_ami" {
   # ECS-optimized AMI for us-east-1.
   default = "ami-b2df2ca4"
@@ -46,3 +54,5 @@ variable "minimum_healthy_percent" {
 variable "maximum_healthy_percent" {
   default = "200"
 }
+
+variable "ssl_certificate_arn" {}
