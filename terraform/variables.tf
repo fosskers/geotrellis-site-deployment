@@ -19,10 +19,6 @@ variable "ecs_instance_profile" {
   default = "arn:aws:iam::896538046175:instance-profile/terraform-wzxkyowirnachcosiqxrriheki"
 }
 
-variable "ecs_service_role" {
-  default = "arn:aws:iam::896538046175:role/ecs_service_role"
-}
-
 variable "subnet_id" {
   default     = "subnet-c5fefdb1"
   type        = "string"
@@ -52,3 +48,15 @@ variable "maximum_healthy_percent" {
 }
 
 variable "ssl_certificate_arn" {}
+
+variable "aws_ecs_for_ec2_service_role_policy_arn" {
+  default = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+variable "aws_ecs_service_role_policy_arn" {
+  default = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+}
+
+variable "aws_cloudwatch_logs_policy_arn" {
+  default = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
