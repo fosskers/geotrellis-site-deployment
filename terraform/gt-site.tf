@@ -114,9 +114,31 @@ resource "aws_autoscaling_group" "ecs" {
   max_size                  = "${var.desired_instance_count}"
   vpc_zone_identifier       = ["${var.subnet_id}"]
 
+  enabled_metrics = [
+    "GroupMinSize",
+    "GroupDesiredCapacity",
+    "GroupInServiceInstances",
+    "GroupPendingInstances",
+    "GroupStandbyInstances",
+    "GroupTerminatingInstances",
+    "GroupTotalInstances",
+  ]
+
   tag {
     key                 = "Name"
     value               = "ECS ${aws_ecs_cluster.gt_site_cluster.name}"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Project"
+    value               = "${var.project}"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Environment"
+    value               = "${var.environment}"
     propagate_at_launch = true
   }
 }
