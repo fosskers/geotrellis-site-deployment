@@ -60,7 +60,7 @@ resource "aws_alb_target_group" "gt_site_https" {
   port     = "443"
   protocol = "HTTP"
 
-  # vpc_id = "${module.vpc.id}"
+  vpc_id = "${var.gt_vpc}"
 
   tags {
     Name        = "albtg-gtsite-${var.environment}"
@@ -93,7 +93,7 @@ resource "aws_launch_configuration" "ecs" {
   associate_public_ip_address = false
   user_data                   = "#!/bin/bash\necho ECS_CLUSTER='${aws_ecs_cluster.gt_site_cluster.name}' > /etc/ecs/ecs.config"
 
-  #  security_groups = ["${aws_security_group.container_instance.id}"]
+  security_groups = ["${aws_security_group.gt_site_sg.id}"]
 
   lifecycle {
     create_before_destroy = true
@@ -101,13 +101,35 @@ resource "aws_launch_configuration" "ecs" {
 }
 
 resource "aws_security_group" "gt_site_sg" {
-  #  vpc_id = "${module.vpc.id}"
+  vpc_id = "${var.gt_vpc}"
 
   tags {
     Name        = "sg-gtsite-ContainerInstance"
     Project     = "${var.project}"
     Environment = "${var.environment}"
   }
+}
+
+resource "aws_security_group" "alb_sg" {
+  vpc_id = "${var.gt_vpc}"
+
+  tags {
+    Name        = "sg-gtsite-alb"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+}
+
+# Enables dynamic port mapping, so that the ALB can talk to its instances
+# over any port.
+resource "aws_security_group_rule" "gt_site_sg_egress" {
+  type      = "egress"
+  from_port = 0
+  to_port   = 65535
+  protocol  = "tcp"
+
+  security_group_id        = "${aws_security_group.alb_sg.id}"
+  source_security_group_id = "${aws_security_group.gt_site_sg.id}"
 }
 
 resource "aws_autoscaling_group" "ecs" {

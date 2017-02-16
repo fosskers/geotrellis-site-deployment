@@ -60,3 +60,7 @@ variable "aws_ecs_service_role_policy_arn" {
 variable "aws_cloudwatch_logs_policy_arn" {
   default = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
+
+variable "gt_vpc" {
+  default = "vpc-617f9604"
+}
