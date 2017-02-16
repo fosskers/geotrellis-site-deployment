@@ -15,10 +15,6 @@ variable "aws_ecs_ami" {
   default = "ami-b2df2ca4"
 }
 
-variable "ecs_instance_profile" {
-  default = "arn:aws:iam::896538046175:instance-profile/terraform-wzxkyowirnachcosiqxrriheki"
-}
-
 variable "subnet_id" {
   default     = "subnet-c5fefdb1"
   type        = "string"
