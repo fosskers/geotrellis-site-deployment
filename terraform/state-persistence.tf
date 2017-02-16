@@ -3,7 +3,7 @@ data "terraform_remote_state" "gt-site-cluster" {
 
   config {
     bucket = "aws-state"
-    key    = "geotrellis-site/gt-site-cluster.tfstate"
+    key    = "geotrellis-site/gt-site-cluster-${var.environment}.tfstate"
     region = "us-east-1"
   }
 }
