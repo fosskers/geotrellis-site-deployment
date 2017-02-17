@@ -35,7 +35,7 @@ resource "aws_ecs_service" "gt_site_cluster_service" {
 
 # A Load Balancer, the true entrance point to the site/demo servers.
 resource "aws_alb" "gt_site_alb" {
-  subnets = ["${var.subnet_id}"]
+  subnets = "${var.public_subnet_ids}"
   name    = "alb-gtsite-${var.environment}"
 
   tags {
@@ -143,7 +143,7 @@ resource "aws_autoscaling_group" "ecs" {
   desired_capacity          = "${var.desired_instance_count}"
   min_size                  = "${var.desired_instance_count}"
   max_size                  = "${var.desired_instance_count}"
-  vpc_zone_identifier       = ["${var.subnet_id}"]
+  vpc_zone_identifier       = "${var.private_subnet_ids}"
 
   enabled_metrics = [
     "GroupMinSize",
