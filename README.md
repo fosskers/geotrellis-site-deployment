@@ -51,10 +51,8 @@ Provided you have valid AWS credentials, bringing up a working cluster should
 be as simple as:
 
 ```console
-cd terraform
-terraform plan   # to confirm config validity
-terraform apply  # to launch the cluster
+export GT_SITE_SETTINGS_BUCKET="geotrellis-site-staging-config-us-east-1"
+export AWS_PROFILE="geotrellis-site"
+./scripts/infra plan
+./scripts/infra apply
 ```
-
-We use remote Terraform state, which is saved under Azavea's
-`s3://aws-state/geotrellis-site/`.
