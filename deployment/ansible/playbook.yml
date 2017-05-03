@@ -7,4 +7,6 @@
 
   roles:
     - role: "azavea.docker"
+    - role: "azavea.terraform"
+    - role: "azavea.aws-cli"
     - role: "gtsite.docker-compose"

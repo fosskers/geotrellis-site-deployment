@@ -19,6 +19,18 @@ available at `transit/`
 Development
 -----------
 
+### Environment Setup
+Create an AWS profile called `geotrellis-site`
+```bash
+aws --profile geotrellis-site configure
+```
+
+Create and provision the VM
+```bash
+$ ./scripts/setup
+```
+
+### Git Submodules
 This repo utilizes [Git Submodules](https://git-scm.com/docs/git-submodule). To properly
 clone the repo, run:
 
@@ -47,12 +59,10 @@ hash
 Deployment
 ----------
 
-Provided you have valid AWS credentials, bringing up a working cluster should
-be as simple as:
+Deployment is driven by Terraform. To deploy the website, ssh into the VM and do:
 
 ```console
 export GT_SITE_SETTINGS_BUCKET="geotrellis-site-staging-config-us-east-1"
-export AWS_PROFILE="geotrellis-site"
 ./scripts/infra plan
 ./scripts/infra apply
 ```

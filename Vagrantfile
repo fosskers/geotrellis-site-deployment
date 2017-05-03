@@ -17,13 +17,26 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
     end
 
+    config.vm.synced_folder "~/.aws", "/home/vagrant/.aws"
+
     # Provisioning
     # Ansible is installed automatically by Vagrant.
     config.vm.provision "ansible_local" do |ansible|
         ansible.sudo = true
-        ansible.playbook = "playbook.yml"
-        ansible.galaxy_role_file = "roles/roles.yml"
-        ansible.galaxy_roles_path = "/home/vagrant/ansible_galaxy"
+        ansible.playbook = "deployment/ansible/playbook.yml"
+        ansible.galaxy_role_file = "deployment/ansible/roles.yml"
+        ansible.galaxy_roles_path = "deployment/ansible/roles"
+        ansible.groups = {
+            "all" => ["default"],
+            "all:vars" => {"terraform_version" => "0.9.3",
+                           "awscli_version"    => "1.11.*",
+                           "aws_profile"       => "geotrellis-site"}
+        }
+    end
+
+    config.vm.provision "shell" do |s|
+        s.path = 'deployment/vagrant/cd_shared_folder.sh'
+        s.args = "/vagrant"
     end
 
 end
