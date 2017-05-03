@@ -22,7 +22,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     fi
 
     if [[ -n "${GT_SITE_SETTINGS_BUCKET}" ]]; then
-        pushd "${DIR}/../terraform"
+        pushd "${DIR}/../deployment/terraform"
 
         case "${1}" in
             plan)

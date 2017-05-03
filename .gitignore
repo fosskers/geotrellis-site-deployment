@@ -4,3 +4,11 @@
 *.tfvars
 *.tfstate
 *.tfstate.backup
+
+# Vagrant
+.vagrant
+
+# Ansible
+deployment/ansible/roles/azavea.*
+*.retry
+.ansible_galaxy

@@ -17,7 +17,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   retain_on_delete = true
 
   price_class = "${var.cdn_price_class}"
-  aliases     = ["beta.${var.r53_hosted_zone_name}"]
+  aliases     = ["beta.${var.r53_hosted_zone_name}", "www.${var.r53_hosted_zone_name}", "${var.r53_hosted_zone_name}"]
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
