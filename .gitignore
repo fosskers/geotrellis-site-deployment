@@ -9,6 +9,6 @@
 .vagrant
 
 # Ansible
-deployment/ansible/roles/azavea.*
+ansible/roles/azavea.*
 *.retry
 .ansible_galaxy
