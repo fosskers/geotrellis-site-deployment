@@ -6,14 +6,6 @@ variable "environment" {
   default = "Staging"
 }
 
-variable "aws_elastic_load_balancing_account_id_arn" {
-  default = "arn:aws:iam::127311923021:root"
-}
-
-variable "aws_region" {
-  default = "us-east-1"
-}
-
 variable "aws_ecs_ami" {
   default = "ami-b2df2ca4"
 }
@@ -23,14 +15,12 @@ variable "aws_key_name" {
   type    = "string"
 }
 
-variable "public_subnet_ids" {
-  default = [
-    "subnet-0b1b374d",
-    "subnet-2ec98506",
-  ]
+variable "aws_region" {
+  default = "us-east-1"
+}
 
-  type        = "list"
-  description = "Public subnets for the ALB"
+variable "aws_elastic_load_balancing_account_id_arn" {
+  default = "arn:aws:iam::127311923021:root"
 }
 
 variable "private_subnet_ids" {
@@ -115,42 +105,6 @@ variable "container_instance_asg_low_memory_threshold_percent" {
   default = "50"
 }
 
-variable "website_https_ecs_deployment_min_percent" {
-  default = "100"
-}
-
-variable "website_https_ecs_deployment_max_percent" {
-  default = "200"
-}
-
-variable "website_https_ecs_desired_count" {
-  default = 1
-}
-
-variable "ssl_certificate_arn" {
-  default = "arn:aws:acm:us-east-1:896538046175:certificate/a416c2af-00dd-4afd-8c71-dd32edefa839"
-}
-
-variable "aws_ecs_service_role_policy_arn" {
-  default = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
-}
-
-variable "aws_cloudwatch_logs_policy_arn" {
-  default = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
-}
-
 variable "vpc_id" {
   default = "vpc-617f9604"
-}
-
-variable "cdn_price_class" {
-  default = "PriceClass_100"
-}
-
-variable "r53_hosted_zone_id" {
-  default = "ZIM2DOAEE0E8U"
-}
-
-variable "r53_hosted_zone_name" {
-  default = "geotrellis.io"
 }

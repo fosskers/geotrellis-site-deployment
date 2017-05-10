@@ -23,9 +23,9 @@ Vagrant.configure("2") do |config|
     # Ansible is installed automatically by Vagrant.
     config.vm.provision "ansible_local" do |ansible|
         ansible.sudo = true
-        ansible.playbook = "deployment/ansible/playbook.yml"
-        ansible.galaxy_role_file = "deployment/ansible/roles.yml"
-        ansible.galaxy_roles_path = "deployment/ansible/roles"
+        ansible.playbook = "ansible/playbook.yml"
+        ansible.galaxy_role_file = "ansible/roles.yml"
+        ansible.galaxy_roles_path = "ansible/roles"
         ansible.groups = {
             "all" => ["default"],
             "all:vars" => {"terraform_version" => "0.9.3",
@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provision "shell" do |s|
-        s.path = 'deployment/vagrant/cd_shared_folder.sh'
+        s.path = 'vagrant/cd_shared_folder.sh'
         s.args = "/vagrant"
     end
 
