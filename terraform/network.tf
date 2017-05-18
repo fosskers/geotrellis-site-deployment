@@ -1,7 +1,7 @@
 # VPC module for setting up vpc
 module "vpc" {
   source                     = "github.com/azavea/terraform-aws-vpc?ref=3.1.1"
-  name                       = "gtsite${var.environment}"
+  name                       = "vpc${var.project}${var.environment}"
   region                     = "${var.aws_region}"
   key_name                   = "${var.aws_key_name}"
   cidr_block                 = "${var.vpc_cidr_block}"
