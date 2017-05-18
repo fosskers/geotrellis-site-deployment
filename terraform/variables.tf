@@ -28,7 +28,7 @@ variable "vpc_cidr_block" {
 }
 
 variable "vpc_external_access_cidr_block" {
-  default = "0.0.0.0/0"
+  default = "66.212.12.106/32"
 }
 
 variable "vpc_private_subnet_cidr_blocks" {
