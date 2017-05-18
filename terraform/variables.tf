@@ -1,5 +1,5 @@
 variable "project" {
-  default = "GeoTrellis Website"
+  default = "GeoTrellis"
 }
 
 variable "environment" {
@@ -49,6 +49,14 @@ variable "bastion_ami" {
 
 variable "vpc_bastion_instance_type" {
   default = "t2.micro"
+}
+
+variable "r53_private_hosted_zone" {
+  default = "geotrellis.internal"
+}
+
+variable "r53_public_hosted_zone" {
+  default = "preview.geotrellis.io"
 }
 
 variable "container_instance_asg_desired_capacity" {
