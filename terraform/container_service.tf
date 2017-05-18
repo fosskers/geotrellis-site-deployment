@@ -12,7 +12,7 @@ data "template_file" "container_instance_cloud_config" {
 module "container_service_cluster" {
   source = "github.com/azavea/terraform-aws-ecs-cluster?ref=0.1.0"
 
-  vpc_id        = "${var.vpc_id}"
+  vpc_id        = "${module.vpc.id}"
   ami_id        = "${var.aws_ecs_ami}"
   instance_type = "${var.container_instance_type}"
   key_name      = "${var.aws_key_name}"
@@ -34,7 +34,7 @@ module "container_service_cluster" {
     "GroupTotalInstances",
   ]
 
-  private_subnet_ids = ["${var.private_subnet_ids}"]
+  private_subnet_ids = "${module.vpc.private_subnet_ids}"
 
   scale_up_cooldown_seconds      = "${var.container_instance_asg_scale_up_cooldown_seconds}"
   scale_down_cooldown_seconds    = "${var.container_instance_asg_scale_down_cooldown_seconds}"

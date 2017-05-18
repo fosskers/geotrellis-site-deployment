@@ -3,7 +3,7 @@ variable "project" {
 }
 
 variable "environment" {
-  default = "Staging"
+  default = "Production"
 }
 
 variable "aws_ecs_ami" {
@@ -23,14 +23,32 @@ variable "aws_elastic_load_balancing_account_id_arn" {
   default = "arn:aws:iam::127311923021:root"
 }
 
-variable "private_subnet_ids" {
-  default = [
-    "subnet-7d2ba926",
-    "subnet-f2f078df",
-  ]
+variable "vpc_cidr_block" {
+  default = "10.0.0.0/16"
+}
 
-  type        = "list"
-  description = "Private subnets for the ASG"
+variable "vpc_external_access_cidr_block" {
+  default = "0.0.0.0/0"
+}
+
+variable "vpc_private_subnet_cidr_blocks" {
+  default = ["10.0.1.0/24", "10.0.3.0/24"]
+}
+
+variable "vpc_public_subnet_cidr_blocks" {
+  default = ["10.0.0.0/24", "10.0.2.0/24"]
+}
+
+variable "vpc_availibility_zones" {
+  default = ["us-east-1a", "us-east-1c"]
+}
+
+variable "bastion_ami" {
+  default = "ami-f5f41398"
+}
+
+variable "vpc_bastion_instance_type" {
+  default = "t2.micro"
 }
 
 variable "container_instance_asg_desired_capacity" {
@@ -103,8 +121,4 @@ variable "container_instance_asg_low_memory_period_seconds" {
 
 variable "container_instance_asg_low_memory_threshold_percent" {
   default = "50"
-}
-
-variable "vpc_id" {
-  default = "vpc-617f9604"
 }
