@@ -29,3 +29,8 @@ deploy:
   script: scripts/deploy
   on:
     branch: develop
+
+after_deploy:
+  script: 
+    - rm terraform/${GT_SITE_SETTINGS_BUCKET}.tfvars
+    - rm terraform/${GT_SITE_SETTINGS_BUCKET}.tfplan
