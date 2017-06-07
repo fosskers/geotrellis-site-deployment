@@ -1,0 +1,36 @@
+language: bash
+services: docker
+
+addons:
+  apt:
+    packages:
+      - shellcheck
+
+env:
+  global:
+    - TERRAFORM_VERSION=0.9.6
+    - AWSCLI_VERSION=1.11.*
+    - GT_SITE_SETTINGS_BUCKET=geotrellis-site-production-config-us-east-1
+    - secure: OZh5yap7uhylrN11GzoMLywTfkYBISzSfK5v/P7MVDHlBnty5WXFx5H7s4ETlq9ZoxixZ2+yRvyQWCrprqkXPFEG7rblmjpH9XNRTaWxYRcvkQh7bveYMhH8/Edu+bL9cAQDbKN9wtpQTOn3DJcnusbq1+9Khh/KWXrvPTfbfa9EQYszMRA9e9PfkZ/t91w8cnlzFs8a8OZvmA3WEGFMC/P4swyhcLNLFyr+YA7gW5p6hDyZ36LCshI5CI2hBDYmy4jkfQ7dyELdPb1E6VTiOGsn/Mbv3eFgNSsaUIFOrD8UB//DVRvHVlAI+Q5SmXduEpTysKaN0StM2OYRsLClpamUOWcikxlXpibUDX+zPtptMki85Oi0QxmPPtICtweSyiW+tdQpNfQmGkUC/6RkTS9lnHUNUuc+cV14QdsaI84OD2+YpEcak5PbiQuBdh0LY6sJXZpvOjEorkuhj2fs7LlWePEXIbFwOlK48H6iWG2B5y5LWqHQLpwJ/NAZH6iiRn0W6zGr9Mnr7mh/dX6l7f8EjOKQjvII8WHgDmgnpvd7gr6m86uh1DhiC9BaYGcvl56qzuTFe9aq7b3rRkua/h/o48Nsbm3fAOwFdXcM4lYr7q7M8WyqLLThfLwx1a/kV4xSzqq5jPCc3TqHc/e+Skbd1T27Lz3Lz1NiS0eRd+4=
+    - secure: cjZWJUYgrLGUOKBe7DP2uYJK6eZ0CxqamLhYdXfie5v5R+78Ror44eHc2EsGDygsI7gq0Qn/IPUveqCBA7AH2ePGO28Kxa4tyLJdDVwmZgUsRxJWh7g+5mCoPGz055MLgldTFbV/AACDgJjoAhU6o5TkPGUrABYas0vNElUehKAp8AYv49zTTJW66vw3XEbzVjpOCB2d5++jyHRb/MLd4ck3elx+sP5yk1A+mRnXNZlHopFjCH8E3LRcaTcW55vUmFt2G+rUu3sH8nhsuAvKDeSj7E8zO+MtF+9c+r1q/IcIvaRPLB3U2UC2EB3tCb+s+9AMAPe5S3Tw/WRq89SXvCquJUUclNLy291eADZBeodx4zP5oBtEKZdesJsqUCvkoMQk5yyK6gGRFKrvYFyMYCaXZAw+PD6p29S41zu2I3gSr0/xu+EE/0bgdi4qB2Qw0y4bJo5g3/kYp8rOalWTeapG9SdQrlzzOTv4m/XPXdgUbCban2i9MwazFMOW66tMdXZZGXbGNjw1K+H4IBBVSESiGS9oYhzsLYLNA7vB+jswWcHMYJwo82DQ/+BG31yozmBiCA9wqBcvVPRlnz5u/Mobk+LuueE/tjogMHBjUg+GHRoLDPr16b6nKrxCUAyX7fqHCphb1mibqE4u975EzDPEwv9NBn/RMaVb+jVLXVo=
+
+script:
+  - scripts/cibuild
+
+
+before_deploy:
+  - mkdir -p ~/.local/bin
+  - wget -O terraform-${TERRAFORM_VERSION}.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+  - unzip -d ~/.local/bin terraform-${TERRAFORM_VERSION}.zip
+  - pip install --user awscli==${AWSCLI_VERSION}
+  - export PATH="~/.local/bin:$PATH"
+  - rm terraform-${TERRAFORM_VERSION}.zip
+
+deploy:
+  provider: script
+  script: scripts/deploy
+  on:
+    branch: develop
+
+after_deploy:
+  - rm terraform/${GT_SITE_SETTINGS_BUCKET}.{tfvars,tfplan}

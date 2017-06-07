@@ -1,0 +1,14 @@
+# Terraform
+.terraform
+*.tfplan
+*.tfvars
+*.tfstate
+*.tfstate.backup
+
+# Vagrant
+.vagrant
+
+# Ansible
+ansible/roles/azavea.*
+*.retry
+.ansible_galaxy
