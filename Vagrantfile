@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
         ansible.galaxy_roles_path = "ansible/roles"
         ansible.groups = {
             "all" => ["default"],
-            "all:vars" => {"terraform_version" => "0.9.3",
+            "all:vars" => {"terraform_version" => "0.9.6",
                            "awscli_version"    => "1.11.*",
                            "aws_profile"       => "geotrellis-site"}
         }
