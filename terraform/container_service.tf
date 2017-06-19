@@ -10,7 +10,7 @@ data "template_file" "container_instance_cloud_config" {
 }
 
 module "container_service_cluster" {
-  source = "github.com/azavea/terraform-aws-ecs-cluster?ref=0.1.0"
+  source = "github.com/azavea/terraform-aws-ecs-cluster?ref=0.4.0"
 
   vpc_id        = "${module.vpc.id}"
   ami_id        = "${var.aws_ecs_ami}"
