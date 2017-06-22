@@ -52,11 +52,11 @@ variable "vpc_bastion_instance_type" {
 }
 
 variable "r53_private_hosted_zone" {
-  default = "geotrellis.internal"
+  default = "geotrellis.internal."
 }
 
 variable "r53_public_hosted_zone" {
-  default = "preview.geotrellis.io"
+  default = "geotrellis.io."
 }
 
 variable "container_instance_asg_desired_capacity" {
