@@ -6,11 +6,6 @@ Vagrant.configure("2") do |config|
     # Ubuntu 14.04 LTS
     config.vm.box = "ubuntu/trusty64"
 
-    # Ports to the services
-    config.vm.network :forwarded_port, guest: 8080, host: 8080  # nginx
-    config.vm.network :forwarded_port, guest: 9999, host: 9999  # Transit Demo
-    config.vm.network :forwarded_port, guest: 8777, host: 8777  # Chatta Demo
-
     # VM resource settings
     config.vm.provider :virtualbox do |vb|
         vb.memory = 8192
