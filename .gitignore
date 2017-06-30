@@ -12,3 +12,4 @@
 ansible/roles/azavea.*
 *.retry
 .ansible_galaxy
+terraform.tfstate*

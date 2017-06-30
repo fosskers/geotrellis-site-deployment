@@ -92,7 +92,7 @@ variable "container_instance_asg_high_cpu_period_seconds" {
 }
 
 variable "container_instance_asg_high_cpu_threshold_percent" {
-  default = "75"
+  default = "100"
 }
 
 variable "container_instance_asg_low_cpu_evaluation_periods" {
@@ -104,7 +104,7 @@ variable "container_instance_asg_low_cpu_period_seconds" {
 }
 
 variable "container_instance_asg_low_cpu_threshold_percent" {
-  default = "50"
+  default = "0"
 }
 
 variable "container_instance_asg_high_memory_evaluation_periods" {
@@ -116,7 +116,7 @@ variable "container_instance_asg_high_memory_period_seconds" {
 }
 
 variable "container_instance_asg_high_memory_threshold_percent" {
-  default = "75"
+  default = "100"
 }
 
 variable "container_instance_asg_low_memory_evaluation_periods" {
@@ -128,5 +128,5 @@ variable "container_instance_asg_low_memory_period_seconds" {
 }
 
 variable "container_instance_asg_low_memory_threshold_percent" {
-  default = "50"
+  default = "0"
 }
