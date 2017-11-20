@@ -22,7 +22,7 @@ $ ./scripts/setup
 Use the `infra` script to deploy the website.
 
 ```console
-export GT_SITE_SETTINGS_BUCKET="geotrellis-site-staging-config-us-east-1"
+export GT_SITE_SETTINGS_BUCKET="geotrellis-site-production-config-us-east-1"
 ./scripts/infra plan
 ./scripts/infra apply
 ```
