@@ -6,10 +6,6 @@ variable "environment" {
   default = "Production"
 }
 
-variable "aws_ecs_ami" {
-  default = "ami-b2df2ca4"
-}
-
 variable "aws_key_name" {
   default = "geotrellis-site"
   type    = "string"
@@ -60,15 +56,15 @@ variable "r53_public_hosted_zone" {
 }
 
 variable "container_instance_asg_desired_capacity" {
-  default = 2
+  default = 5
 }
 
 variable "container_instance_asg_min_size" {
-  default = 2
+  default = 3
 }
 
 variable "container_instance_asg_max_size" {
-  default = 2
+  default = 5
 }
 
 variable "container_instance_type" {
