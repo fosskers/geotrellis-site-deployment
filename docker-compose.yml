@@ -1,0 +1,14 @@
+version: "2.1"
+services:
+  terraform:
+    image: quay.io/azavea/terraform:0.9.8
+    volumes:
+      - ./:/usr/local/src
+      - $HOME/.aws:/root/.aws:ro
+    environment:
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+      - AWS_PROFILE=geotrellis-site
+      - GT_SITE_DEBUG=1
+      - GT_SITE_SETTINGS_BUCKET=geotrellis-site-production-config-us-east-1
+    working_dir: /usr/local/src
+    entrypoint: bash
