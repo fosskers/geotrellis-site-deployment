@@ -44,7 +44,7 @@ variable "bastion_ami" {
 }
 
 variable "vpc_bastion_instance_type" {
-  default = "t2.micro"
+  default = "t2.nano"
 }
 
 variable "r53_private_hosted_zone" {
