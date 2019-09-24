@@ -40,7 +40,7 @@ variable "vpc_availibility_zones" {
 }
 
 variable "bastion_ami" {
-  default = "ami-f5f41398"
+  default = "ami-0ff8a91507f77f867"
 }
 
 variable "vpc_bastion_instance_type" {
