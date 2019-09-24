@@ -56,7 +56,7 @@ variable "r53_public_hosted_zone" {
 }
 
 variable "container_instance_asg_desired_capacity" {
-  default = 5
+  default = 4
 }
 
 variable "container_instance_asg_min_size" {
@@ -64,7 +64,7 @@ variable "container_instance_asg_min_size" {
 }
 
 variable "container_instance_asg_max_size" {
-  default = 5
+  default = 4
 }
 
 variable "container_instance_type" {
