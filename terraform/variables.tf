@@ -40,11 +40,11 @@ variable "vpc_availibility_zones" {
 }
 
 variable "bastion_ami" {
-  default = "ami-f5f41398"
+  default = "ami-0ff8a91507f77f867"
 }
 
 variable "vpc_bastion_instance_type" {
-  default = "t2.micro"
+  default = "t2.nano"
 }
 
 variable "r53_private_hosted_zone" {
@@ -56,7 +56,7 @@ variable "r53_public_hosted_zone" {
 }
 
 variable "container_instance_asg_desired_capacity" {
-  default = 5
+  default = 4
 }
 
 variable "container_instance_asg_min_size" {
@@ -64,7 +64,7 @@ variable "container_instance_asg_min_size" {
 }
 
 variable "container_instance_asg_max_size" {
-  default = 5
+  default = 4
 }
 
 variable "container_instance_type" {
