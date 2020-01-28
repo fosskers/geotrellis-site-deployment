@@ -44,7 +44,7 @@ variable "bastion_ami" {
 }
 
 variable "vpc_bastion_instance_type" {
-  default = "t2.nano"
+  default = "t3.nano"
 }
 
 variable "r53_private_hosted_zone" {
@@ -68,7 +68,7 @@ variable "container_instance_asg_max_size" {
 }
 
 variable "container_instance_type" {
-  default = "t2.large"
+  default = "t3.large"
 }
 
 variable "container_instance_asg_scale_up_cooldown_seconds" {
