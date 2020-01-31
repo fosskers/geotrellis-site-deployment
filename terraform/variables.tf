@@ -47,6 +47,10 @@ variable "vpc_bastion_instance_type" {
   default = "t3.nano"
 }
 
+variable "vpc_bastion_ebs_optimized" {
+  default = true
+}
+
 variable "r53_private_hosted_zone" {
   default = "geotrellis.internal."
 }
