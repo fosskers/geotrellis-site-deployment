@@ -29,7 +29,3 @@ output "container_instance_ecs_for_ec2_service_role_name" {
 output "ecs_service_role_name" {
   value = "${module.container_service_cluster.ecs_service_role_name}"
 }
-
-output "ecs_autoscale_role_arn" {
-  value = "${module.container_service_cluster.ecs_autoscale_role_arn}"
-}
