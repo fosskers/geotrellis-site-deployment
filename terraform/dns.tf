@@ -2,7 +2,7 @@
 # Private DNS resources
 #
 resource "aws_route53_zone" "internal" {
-  name       = "${var.r53_private_hosted_zone}"
+  name = "${var.r53_private_hosted_zone}"
 
   vpc {
     vpc_id     = "${module.vpc.id}"
