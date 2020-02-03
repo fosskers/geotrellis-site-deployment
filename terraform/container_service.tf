@@ -10,13 +10,13 @@ data "template_file" "container_instance_cloud_config" {
 }
 
 module "container_service_cluster" {
-  source = "github.com/azavea/terraform-aws-ecs-cluster?ref=0.8.0"
+  source = "github.com/azavea/terraform-aws-ecs-cluster?ref=2.0.0"
 
-  lookup_latest_ami = true
-  vpc_id            = "${module.vpc.id}"
-  instance_type     = "${var.container_instance_type}"
-  key_name          = "${var.aws_key_name}"
-  cloud_config      = "${data.template_file.container_instance_cloud_config.rendered}"
+  lookup_latest_ami    = true
+  vpc_id               = "${module.vpc.id}"
+  instance_type        = "${var.container_instance_type}"
+  key_name             = "${var.aws_key_name}"
+  cloud_config_content = "${data.template_file.container_instance_cloud_config.rendered}"
 
   health_check_grace_period = "600"
   desired_capacity          = "${var.container_instance_asg_desired_capacity}"
